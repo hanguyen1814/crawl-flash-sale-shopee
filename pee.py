@@ -2,6 +2,12 @@ import re, time
 import requests, json
 import pandas as pd
 import vip
+import os
+import glob
+
+duong_dan_thu_muc = r'E:\shopee'
+danh_sach_excel = glob.glob(os.path.join(duong_dan_thu_muc, '*.xlsx')) # type: ignore
+danh_sach = [os.path.splitext(os.path.basename(duong_dan))[0] for duong_dan in danh_sach_excel]
 
 def price_sale(price, discount):
     price_sale = price - round(price*(discount/100), -3)
@@ -190,8 +196,12 @@ def run(session, name):
     print(f'Done! {len(data_list)} items')
 
 for i in get_all_sessions():
+    # print(danh_sach)
+    if i['name'] in danh_sach: continue
+    print(f'{i["name"]}')
     run(i['promotionid'], i['name'])
 
+# run(189987593342979, 'Flash Sale Mon 11.12 21H - 24H')
 # get_all_sessions()
     
 
